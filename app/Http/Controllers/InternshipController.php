@@ -33,7 +33,7 @@ class InternshipController extends Controller
             'baslik' => 'required',
         ]);
         internship::create($request->all()+["user_id"=>auth()->id()]);
-        return redirect()->route("home");
+        return redirect()->route("user.show",\auth()->user()->id);
     }
 
     /**
@@ -44,7 +44,7 @@ class InternshipController extends Controller
      */
     public function show(internship $internship)
     {
-        abort_unless($internship->aktif || (Auth::check() && auth()->user()->admin),404);
+        abort_unless($internship->aktif || (Auth::check() && (auth()->user()->admin || $internship->user_id==auth()->user()->id)),404);
         return view("internship.show",compact('internship'));
     }
 
@@ -69,7 +69,7 @@ class InternshipController extends Controller
      */
     public function update(Request $request, internship $internship)
     {
-        abort_unless($internship->user_id==auth()->id() || auth()->user()->admin,401);
+        abort_unless(($internship->user_id==auth()->id() && $internship->aktif) || auth()->user()->admin,401);
         $validatedData = $request->validate([
             'sirket' => 'required',
             'aciklama' => 'required',
@@ -90,7 +90,7 @@ class InternshipController extends Controller
      */
     public function destroy(internship $internship)
     {
-        abort_unless($internship->user_id==auth()->id() || auth()->user()->admin,401);
+        abort_unless(($internship->user_id==auth()->id() && $internship->aktif) || auth()->user()->admin,401);
         $internship->delete();
         return redirect()->back();
     }

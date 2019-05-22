@@ -80,6 +80,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{auth()->user()->isim}} <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="{{route("user.edit",auth()->id())}}">Bilgilerimi Düzenle</a></li>
+                                    <li><a href="{{route("user.show",auth()->id())}}">İlanlarım ve Profilim</a></li>
                                     <li><a href="{{route('logout')}}">Çıkış Yap</a></li>
                                 </ul>
                             </li>

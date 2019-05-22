@@ -1,7 +1,7 @@
 @extends('layouts.index')
 @section('content')
     <h1 class="page-header text-center">
-        {{$internship->baslik}}
+        {{$internship->baslik}}@unless($internship->aktif) <span class="label label-warning">Onay Bekliyor</span>@endunless
     </h1>
     <div class="panel panel-info">
         <div class="panel-heading">
@@ -17,7 +17,7 @@
 
     <div class="panel panel-warning">
         <div class="panel-heading">
-            <h3 class="panel-title">Şirket Bilgileri</h3>
+            <h3 class="panel-title">İlan Sahibi</h3>
         </div>
         <div class="panel-body">
             <b>İsim:</b> {{$internship->user->isim}}<br>

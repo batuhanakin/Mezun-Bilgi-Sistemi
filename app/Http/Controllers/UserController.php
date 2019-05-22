@@ -26,6 +26,7 @@ class UserController extends Controller
 
     public function destroy(User $user){
         abort_unless(auth()->user()->admin && !$user->admin,401);
+        $user->internships()->delete();
         $user->delete();
         return redirect()->route("user.index");
     }
@@ -33,6 +34,11 @@ class UserController extends Controller
     public function index(){
         abort_unless(auth()->user()->admin,401);
         $users=User::orderBy("id","desc")->paginate(10);
-        return view('list_users',compact('users'));
+        return view('user.list',compact('users'));
+    }
+
+    public function show(User $user){
+        $internships=$user->internships()->where(\Auth::check() &&(auth()->user()->admin || auth()->user()->id==$user->id)?[]:["aktif"=>1])->orderByDesc("id")->paginate(10);
+        return view('user.show',compact('user','internships'));
     }
 }

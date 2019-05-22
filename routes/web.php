@@ -15,6 +15,7 @@ Route::get("/","HomeController@index")->name("home");
 Route::get('/logout', "HomeController@logout")->name("logout");
 
 Auth::routes();
+Route::get('/user/{user}', 'UserController@show')->name('user.show');
 Route::group(['middleware' => ['auth','verified']],function () {
     Route::get('/user/{user}/edit', 'UserController@edit')->name('user.edit');
     Route::put('/user/{user}', 'UserController@update')->name('user.update');
