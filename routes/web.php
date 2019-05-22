@@ -11,10 +11,16 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get("/","HomeController@index")->name("home");
+Route::get('/logout', "HomeController@logout")->name("logout");
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['middleware' => ['auth','verified']],function () {
+    Route::get('/user/{user}/edit', 'UserController@edit')->name('user.edit');
+    Route::put('/user/{user}', 'UserController@update')->name('user.update');
+    Route::get('/user/{user}/delete', 'UserController@destroy')->name('user.delete');
+    Route::get('/users', 'UserController@index')->name('user.index');
+    Route::get('/internship/{internship}/delete', 'InternshipController@destroy')->name('internship.delete');
+    Route::resource("internship","InternshipController")->except(["show","index","destroy"]);
+});
+Route::get("/internship/{internship}","InternshipController@show")->name("internship.show");

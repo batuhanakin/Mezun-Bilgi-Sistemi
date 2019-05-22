@@ -16,7 +16,10 @@ class CreateInternshipsTable extends Migration
         Schema::create('internships', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string("sirket");
+            $table->string("baslik");
             $table->text("aciklama");
+            $table->boolean("aktif")->default(0);
+            $table->integer("user_id");
             $table->timestamps();
         });
     }

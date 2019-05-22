@@ -2,20 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\internship;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Show the application dashboard.
      *
@@ -23,6 +14,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        if(isset($_GET["search"])){
+            $text=$_GET["search"];
+            $internships=internship::where("baslik","like","%{$text}%")->where(Auth::check() && auth()->user()->admin?[]:["aktif"=>1])->orderBy("id","desc")->paginate(10);
+        }else{
+            $internships=internship::where(Auth::check() && auth()->user()->admin?[]:["aktif"=>1])->orderBy("id","desc")->paginate(10);
+        }
+        return view("home",compact('internships'));
+    }
+
+    public function logout(){
+        auth()->logout();
+        return redirect()->route("home");
     }
 }

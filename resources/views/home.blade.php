@@ -1,23 +1,33 @@
-@extends('layouts.app')
-
+@extends('layouts.index')
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
+    @if($internships->isEmpty())
+        <div class="alert alert-info" role="alert">
+            Henüz hiç ilan yok!
+        </div>
+    @endif
+
+    @foreach($internships as $internship)
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{$internship->baslik}}</h3>
+                <span class="topright">
+                    <a class="btn btn-info pull-right" href="{{route('internship.show',$internship->id)}}">İncele</a>
+                    @if(Auth::check() && (auth()->id()==$internship->user_id || auth()->user()->admin))
+                    <a class="btn btn-danger pull-right" href="{{route('internship.delete',$internship->id)}}">Sil</a>
+                    <a class="btn btn-warning pull-right" href="{{route('internship.edit',$internship->id)}}">Düzenle</a>
                     @endif
-
-                    You are logged in!
-                </div>
+                </span>
+            </div>
+            <div class="panel-body">
+                {!! Str::limit(strip_tags($internship->aciklama),200)!!}
             </div>
         </div>
-    </div>
-</div>
+    @endforeach
+    <div class="text-center">{{$internships->links()}}</div>
+    <style>
+        .topright > a{
+            margin-top: -26px;
+        }
+    </style>
 @endsection
