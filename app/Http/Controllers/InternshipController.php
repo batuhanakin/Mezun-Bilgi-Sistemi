@@ -3,11 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\internship;
+use App\Mail\internshipSaved;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class InternshipController extends Controller
 {
+    public function send_mail(internship $internship){
+        return Mail::to(config("mail.username"),config("app.name"))
+            ->send(new internshipSaved($internship));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -32,7 +38,8 @@ class InternshipController extends Controller
             'aciklama' => 'required',
             'baslik' => 'required',
         ]);
-        internship::create($request->all()+["user_id"=>auth()->id()]);
+        $internship=internship::create($request->all()+["user_id"=>auth()->id()]);
+        $this->send_mail($internship);
         return redirect()->route("user.show",\auth()->user()->id);
     }
 
@@ -57,6 +64,7 @@ class InternshipController extends Controller
     public function edit(internship $internship)
     {
         abort_unless($internship->user_id==auth()->id() || auth()->user()->admin,401);
+        $this->send_mail($internship);
         return view("internship.create_edit",compact('internship'));
     }
 
