@@ -13,7 +13,7 @@
                     }
                 @endphp
                 @if(Session::has('success'))
-                    <div class="alert alert-success" role="alert">Bilgileriniz kaydedildi! Yöneticiden onay bekleniyor.</div>
+                    <div class="alert alert-success" role="alert">{{auth()->user()->admin?"Bilgiler kaydedildi.":"Bilgileriniz kaydedildi! Yöneticiden onay bekleniyor."}}</div>
                 @endif
                 @if(Session::has('error'))
                     <div class="alert alert-danger" role="alert">Bilgileriniz kaydedilirken hata oluştu!</div>

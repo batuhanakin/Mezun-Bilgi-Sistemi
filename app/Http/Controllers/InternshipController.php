@@ -10,9 +10,10 @@ use Illuminate\Support\Facades\Mail;
 
 class InternshipController extends Controller
 {
-    public function send_mail(internship $internship){
-        return Mail::to(config("mail.username"),config("app.name"))
-            ->send(new internshipSaved($internship));
+    public function send_mail(internship $internship):void {
+        Mail::to(\auth()->user()->admin?$internship->user->email:config("mail.username"), config("app.name"))
+                ->send(new internshipSaved($internship, \auth()->user()));
+
     }
 
     /**
@@ -64,7 +65,6 @@ class InternshipController extends Controller
     public function edit(internship $internship)
     {
         abort_unless($internship->user_id==auth()->id() || auth()->user()->admin,401);
-        $this->send_mail($internship);
         return view("internship.create_edit",compact('internship'));
     }
 
@@ -83,11 +83,12 @@ class InternshipController extends Controller
             'aciklama' => 'required',
             'baslik' => 'required',
         ]);
+        $aktif_miydi=$internship->aktif;
         $success=$internship->update(
             auth()->user()->admin?$request->all():$request->except("aktif")+["aktif"=>0]
         );
+        if($success && (\auth()->user()->admin==0 || ($internship->aktif && $aktif_miydi==0))) $this->send_mail($internship);
         return redirect()->back()->with($success?["success"=>true]:["error"=>true]);
-
     }
 
     /**

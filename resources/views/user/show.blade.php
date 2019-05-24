@@ -41,6 +41,4 @@
             margin-top: -26px;
         }
     </style>
-
-
 @endsection
