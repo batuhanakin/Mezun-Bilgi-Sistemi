@@ -66,7 +66,6 @@
                     </form>
 
                     <ul class="nav navbar-nav navbar-right">
-                        <li>   <a class="text-secondary" href="{{ route("todo.index") }}">Todos</a></li>
                         <li><a class="text-secondary" href="{{route("home")}}">İlanlar</a></li>
                         @guest
                             <li><a href="{{route('login')}}">Giriş Yap</a></li>
@@ -74,6 +73,7 @@
                         @endguest
                         @auth
                             <li><a class="text-secondary" href="{{route("internship.create")}}">Yeni İlan Ekle</a></li>
+                            <li>   <a class="text-secondary" href="{{ route("todo.index") }}">Todos</a></li>
                             @if(auth()->user()->admin)
                                     <li><a class="text-secondary" href="{{route("user.index")}}">Mezunlar</a></li>
                             @endif
