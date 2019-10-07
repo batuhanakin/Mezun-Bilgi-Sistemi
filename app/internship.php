@@ -8,8 +8,7 @@ class internship extends Model
 {
     protected $fillable = ['sirket','aciklama','baslik','user_id','aktif'];
 
-    public function user()
-    {
+    public function user(){
         return $this->belongsTo('App\User');
     }
 }

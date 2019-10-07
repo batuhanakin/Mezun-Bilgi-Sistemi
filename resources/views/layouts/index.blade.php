@@ -66,6 +66,7 @@
                     </form>
 
                     <ul class="nav navbar-nav navbar-right">
+                        <li>   <a class="text-secondary" href="{{ route("todo.index") }}">Todos</a></li>
                         <li><a class="text-secondary" href="{{route("home")}}">İlanlar</a></li>
                         @guest
                             <li><a href="{{route('login')}}">Giriş Yap</a></li>

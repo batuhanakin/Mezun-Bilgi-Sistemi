@@ -9,6 +9,7 @@
 
     @foreach($internships as $internship)
         <div class="panel panel-default">
+        
             <div class="panel-heading">
                 <h3 class="panel-title">{{$internship->baslik}} @unless($internship->aktif)<span class="label label-warning">Onay Bekliyor</span>@endunless</h3>
                 <span class="topright">

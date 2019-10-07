@@ -34,11 +34,13 @@ class UserController extends Controller
     public function index(){
         abort_unless(auth()->user()->admin,401);
         $users=User::orderBy("id","desc")->paginate(10);
+        $users->dd();
         return view('user.list',compact('users'));
     }
 
     public function show(User $user){
-        $internships=$user->internships()->where(\Auth::check() &&(auth()->user()->admin || auth()->user()->id==$user->id)?[]:["aktif"=>1])->orderByDesc("id")->paginate(10);
-        return view('user.show',compact('user','internships'));
+        return dd($user);
+        // $internships=$user->internships()->where(\Auth::check() &&(auth()->user()->admin || auth()->user()->id==$user->id)?[]:["aktif"=>1])->orderByDesc("id")->paginate(10);
+        // return view('user.show',compact('user','internships'));
     }
 }

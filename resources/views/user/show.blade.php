@@ -5,8 +5,8 @@
             <h3 class="panel-title">Mezun Bilgileri</h3>
         </div>
         <div class="panel-body">
-            <b>İsim:</b> {{$user->isim}}<br>
-            <b>E-Mail:</b> {{$user->email}}<br>
+            <b>İsim:</b> {{$user->isim}} <br>
+            <b>E-Mail:</b> {{$user->email}} <br>
             <b>Mezuniyet Yılı:</b> {{$user->mezuniyet_yili}}<br>
         </div>
     </div>
@@ -31,7 +31,7 @@
                 </span>
             </div>
             <div class="panel-body">
-                {!! Str::limit(strip_tags($internship->aciklama),200)!!}
+                {!! Str::limit(strip_tags($internship->aciklama),200)!!} {{-- BURASI ACIKLAMA SATIRI. str::limit sinirlama komutu --}}
             </div>
         </div>
     @endforeach

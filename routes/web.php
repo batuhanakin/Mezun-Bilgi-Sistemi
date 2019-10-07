@@ -23,5 +23,7 @@ Route::group(['middleware' => ['auth','verified']],function () {
     Route::get('/users', 'UserController@index')->name('user.index');
     Route::get('/internship/{internship}/delete', 'InternshipController@destroy')->name('internship.delete');
     Route::resource("internship","InternshipController")->except(["show","index","destroy"]);
+    
 });
 Route::get("/internship/{internship}","InternshipController@show")->name("internship.show");
+Route::resource("todo","TodoController");

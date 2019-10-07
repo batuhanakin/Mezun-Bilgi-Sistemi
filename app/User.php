@@ -37,8 +37,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function internships()
-    {
+    public function internships(){
         return $this->hasMany('App\internship');
+    }
+
+    public function todos(){
+        return $this->hasMany('App\todo');
     }
 }
